@@ -1,44 +1,70 @@
-# Multi-Agent-DAO
-A Decentralized Agentic Organization
-
 # Multi-Agent DAO System
-A decentralized autonomous organization (DAO) built on Solana, orchestrated by specialized AI agents that manage governance and treasury operations through a shared-memory, event-driven architecture. Agents register for specific event types via a central subscription registry and communicate by publishing updates—such as proposals, swap requests, or strategy adjustments—to a shared memory system. These updates are instantly broadcast to all subscribed agents through a message broker, enabling real-time synchronization across distributed processes. Agents react by acquiring distributed locks when required, executing actions like trades or vote tally updates, and recording outcomes directly back into the shared memory. 
 
-Users interact with agents via Discord channels, where natural language processing translates user commands into DAO actions, including creating proposals, voting, or initiating treasury operations such as deposits, swaps, and transfers which are automatically executed by agents upon commununity consensus. Treasury assets are securely managed using a Solana wallet controlled by AI agents running within a Trusted Execution Environment (TEE) for secure, tamper-resistant on-chain operations. A reputation-based voting system ensures user influence on proposals corresponds to their contribution to the DAO. The modular design supports straightforward extensibility, enabling the integration of new agents by specifying the event types they subscribe to and process.
-
-The primary agents in this project are:
-
-- ProposalAgent (Pion)
-- StrategyAgent (Kron)
-- TreasuryAgent (Vela)
-- UserProfileAgent (Nova)
+A decentralized autonomous organization (DAO) built on Solana blockchain, powered by four specialized AI agents that manage governance, strategy, treasury, and user profiles. The system uses a shared-memory architecture for inter-agent communication and supports user interaction through Discord.
 
 ## Table of Contents
-- Architecture
-- Agents
-  - ProposalAgent (Pion)
-  - StrategyAgent (Kron)
-  - TreasuryAgent (Vela)
-  - UserProfileAgent (Nova)
-- Core Components
-  - MemoryManager & ExtendedMemoryManager
-  - MemorySyncManager
-  - MessageBroker
-  - Subscription Registry
-  - BaseAgent and Shared Types
-- Scripts / Entry Points
-  - startPion.ts
-  - startKron.ts
-  - startVela.ts
-  - startNova.ts
-- Communication Flow
-- How to Run Locally
-- Directory Structure
-- License
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [Agents](#agents)
+  - [ProposalAgent (Pion)](#proposalagent-pion)
+  - [StrategyAgent (Kron)](#strategyagent-kron)
+  - [TreasuryAgent (Vela)](#treasuryagent-vela)
+  - [UserProfileAgent (Nova)](#userprofileagent-nova)
+- [Core Components](#core-components)
+  - [MemoryManager & ExtendedMemoryManager](#memorymanager--extendedmemorymanager)
+  - [MemorySyncManager](#memorysyncmanager)
+  - [MessageBroker](#messagebroker)
+  - [Subscription Registry](#subscription-registry)
+  - [BaseAgent and Shared Types](#baseagent-and-shared-types)
+- [Scripts / Entry Points](#scripts--entry-points)
+  - [startPion.ts](#startpionts-proposalagent)
+  - [startKron.ts](#startkronts-strategyagent)
+  - [startVela.ts](#startvelets-treasuryagent)
+  - [startNova.ts](#startnovats-userprofileagent)
+- [Communication Flow](#communication-flow)
+- [How to Run Locally](#how-to-run-locally)
+- [Directory Structure](#directory-structure)
+- [License](#license)
+
+## Overview
+
+This system extends a DAO with specialized AI agents that communicate through a shared-memory, event-driven architecture:
+
+- Users interact with agents via Discord channels using natural language commands
+- Agents register for specific event types via a central subscription registry
+- Updates are broadcast to all subscribed agents through a message broker
+- Agents acquire distributed locks when needed for critical operations
+- Treasury assets are managed using a Solana wallet in a Trusted Execution Environment
+- A reputation-based voting system gives users influence proportional to their contributions
+
+The four primary agents in this system are ProposalAgent (Pion), StrategyAgent (Kron), TreasuryAgent (Vela), and UserProfileAgent (Nova).
 
 ## Architecture
 Here is a high-level architectural diagram:
 
+```
+                           +----------------+
+                           |  Pion (ProposalAgent)  |
+                           |  - Proposals & Voting  |
+        +----------------->|  - Closes Votes        |
+        |                  +----------^-------------+
+        |                             |
+        |                             |
+        |                  +----------|-------------+
+        |                  | Kron (StrategyAgent)   |
+        |   +--------------| - Execute & Manage     |
+        |   |              |   Trading Strategies   |
+        |   |              +----------^-------------+
+        |   |                         |
+        v   |                         |
++----------------+                    |             +------------------+
+|  Vela (TreasuryAgent)  | <----------+------------| Nova (UserProfileAgent) |
+| - Manages Treasury     |                         | - User Profiles         |
+| - Swaps/Deposits       |                         | - Reputation, etc.      |
+| - Transfers            |                         +----------^--------------+
++------------------------+                                    |
+                                                              
+                    (Shared Memory, Cross-process Sync, and Event Broadcasting)
 
     MemoryManager / ExtendedMemoryManager  --  MemorySyncManager  --  MessageBroker
 ```
@@ -266,4 +292,6 @@ packages/plugin-solana/src/
 
 ## License
 This plugin is released under the MIT License (or whichever license your repository uses). See LICENSE for details.
+
+
 
