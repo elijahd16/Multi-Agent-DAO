@@ -1,9 +1,10 @@
 # Multi-Agent DAO System
 
-A decentralized autonomous organization (DAO) built on Solana blockchain, powered by four specialized AI agents that manage governance, strategy, treasury, and user profiles. The system uses a shared-memory architecture for inter-agent communication and supports user interaction through Discord.
+A distributed multi-agent system for fully autonomous DAO operations on Solana, featuring specialized agents who orchestrate treasury management, autonomous trading, and strategy execution, coupled with a governance framework for proposal creation, weighted voting, and automated execution of passed proposals. Agents communicate through an event-driven subscription system, where each agent subscribes to specific memory types through a centralized registry. The DAO operates within discord via the discord CLI and allows users to interact with agents via natural language.
+
+This project is built using the ElizaOS framework [https://github.com/elizaOS/eliza]
 
 ## Table of Contents
-- [Overview](#overview)
 - [Architecture](#architecture)
 - [Agents](#agents)
   - [ProposalAgent (Pion)](#proposalagent-pion)
@@ -25,17 +26,6 @@ A decentralized autonomous organization (DAO) built on Solana blockchain, powere
 - [How to Run Locally](#how-to-run-locally)
 - [Directory Structure](#directory-structure)
 - [License](#license)
-
-## Overview
-
-This system extends a DAO with specialized AI agents that communicate through a shared-memory, event-driven architecture:
-
-- Users interact with agents via Discord channels using natural language commands
-- Agents register for specific event types via a central subscription registry
-- Updates are broadcast to all subscribed agents through a message broker
-- Agents acquire distributed locks when needed for critical operations
-- Treasury assets are managed using a Solana wallet in a Trusted Execution Environment
-- A reputation-based voting system gives users influence proportional to their contributions
 
 The four primary agents in this system are ProposalAgent (Pion), StrategyAgent (Kron), TreasuryAgent (Vela), and UserProfileAgent (Nova).
 
@@ -83,8 +73,8 @@ File: packages/plugin-solana/src/agents/proposal/ProposalAgent.ts
 
 Responsibilities:
 
-- Creating new proposals (proposal and proposal_created memory).
-- Interpreting proposal text, validating input, scheduling votes.
+- Creating new proposals (proposal and proposal_created memory) with unique proposal IDs.
+- Interpreting proposal requests from users, validating input, scheduling votes.
 - Tracking votes (vote_cast memory) and closing proposals after a deadline or user request.
 - Executing proposals when quorum is reached (e.g., parameter changes or governance actions).
 - Monitors proposals for final status updates, creating proposal_execution_result or proposal_status_changed.
@@ -101,10 +91,11 @@ File: packages/plugin-solana/src/agents/strategy/StrategyAgent.ts
 Responsibilities:
 
 - Managing advanced trading strategies for tokens, e.g.:
-  - Take-profit (TP) levels, stop-loss (SL), trailing stop, DCA, grids, rebalancing.
+- Take-profit (TP) levels, stop-loss (SL), trailing stop, DCA, grids, rebalancing.
 - Position tracking: opens or updates positions based on user instructions or proposals.
 - Strategy Execution: triggers token swaps (via the treasury) when conditions are met (e.g., price threshold).
 - Cross-Process updates: listens to strategy_execution_request, price_update, position_update, and more.
+- Users simply define a strategy in natural language for an open trade (e.g. set a take profit at 30%).
 
 Key Features:
 
@@ -127,7 +118,7 @@ Key Features:
 - Uses SwapService for token swaps.
 - WalletProvider & TokenProvider to query token data, fetch balances, or sign transactions.
 - Subscribes to deposit events (deposit_received, pending_deposit) to finalize them.
-- Works closely with Pion for proposals that require treasury movements.
+- Works with Pion for proposals that require treasury movements.
 
 ### UserProfileAgent (Nova)
 File: packages/plugin-solana/src/agents/user/UserProfileAgent.ts (not fully shown in the snippet but implied in startNova.ts)
