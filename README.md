@@ -252,7 +252,7 @@ packages/plugin-solana/src/
 ```
 
 ## License
-This plugin is released under the MIT License (or whichever license your repository uses). See LICENSE for details.
+This plugin is released under the MIT License
 
 
 
