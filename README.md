@@ -121,7 +121,7 @@ Key Features:
 - Works with Pion for proposals that require treasury movements.
 
 ### UserProfileAgent (Nova)
-File: packages/plugin-solana/src/agents/user/UserProfileAgent.ts (not fully shown in the snippet but implied in startNova.ts)
+File: packages/plugin-solana/src/agents/user/UserProfileAgent.ts
 
 Responsibilities:
 
