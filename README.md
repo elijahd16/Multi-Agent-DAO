@@ -29,36 +29,6 @@ This project is built using the ElizaOS framework [https://github.com/elizaOS/el
 
 The four primary agents in this system are ProposalAgent (Pion), StrategyAgent (Kron), TreasuryAgent (Vela), and UserProfileAgent (Nova).
 
-## Architecture
-Here is a high-level architectural diagram:
-
-```
-                           +----------------+
-                           |  Pion (ProposalAgent)  |
-                           |  - Proposals & Voting  |
-        +----------------->|  - Closes Votes        |
-        |                  +----------^-------------+
-        |                             |
-        |                             |
-        |                  +----------|-------------+
-        |                  | Kron (StrategyAgent)   |
-        |   +--------------| - Execute & Manage     |
-        |   |              |   Trading Strategies   |
-        |   |              +----------^-------------+
-        |   |                         |
-        v   |                         |
-+----------------+                    |             +------------------+
-|  Vela (TreasuryAgent)  | <----------+------------| Nova (UserProfileAgent) |
-| - Manages Treasury     |                         | - User Profiles         |
-| - Swaps/Deposits       |                         | - Reputation, etc.      |
-| - Transfers            |                         +----------^--------------+
-+------------------------+                                    |
-                                                              
-                    (Shared Memory, Cross-process Sync, and Event Broadcasting)
-
-    MemoryManager / ExtendedMemoryManager  --  MemorySyncManager  --  MessageBroker
-```
-
 Key points:
 
 - Each agent is an instance of the BaseAgent class or a specialized extension.
