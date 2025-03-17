@@ -46,7 +46,7 @@ Key Features:
 - Creates new proposals with unique IDs by interpreting user requests, validating input, and scheduling votes.
 - Auto-detects user votes from messages "yes/no" or emoji reactions '✅'.
 - Monitors and manages the entire proposal lifecycle: open → pending_execution → executing → executed or failed.
-- TreasuryAgent or strategyAgent automatically execute passed proposals when quorum is reached.
+- TreasuryAgent or StrategyAgent automatically execute passed proposals when quorum is reached.
 - Uses DistributedLock to avoid concurrent updates on the same proposal.
 
 
@@ -57,8 +57,8 @@ Key Features:
 - Manages advanced trading strategies for tokens, e.g.:
 - Take-profit (TP) levels, stop-loss (SL), trailing stop, DCA, grids, rebalancing.
 - Position tracking: opens or updates positions based on user instructions or proposals.
-- treasuryAgent triggers token swaps when conditions are met as dictated by the strategyAgent (e.g., price threshold).
-- Users simply define a strategy in natural language for a [articular open trade (e.g. set a take profit at 30% for position 'X').
+- TreasuryAgent triggers token swaps when conditions are met as dictated by the StrategyAgent (e.g., price threshold).
+- Users simply define a strategy in natural language for a particular open trade (e.g. set a take profit at 30% for position 'X').
 
 
 ### UserProfileAgent (Nova)
@@ -131,7 +131,7 @@ There are four main script files, each starting one of the specialized agents:
 - Path: packages/plugin-solana/src/startVela.ts
 - Bootstraps the TreasuryAgent to handle all treasury-related commands (deposits, swaps, balance checks, etc.).
 
-## Communication Flow Example (for treasuryAgent):
+## Communication Flow Example (for TreasuryAgent):
 1. User types in chat (e.g., "i want to register my wallet <addresss>", "how do i deposit?", "i propose we swap 20 SOL for USDC".
 2. Agents capture the a Memory of type user_message.
 3. MemoryManager triggers a local event → MessageBroker broadcasts → The agent responsible for that memory type picks it up.
